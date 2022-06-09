@@ -1,4 +1,4 @@
-# rust-win32-show-display-settings
+# show-display-settings
 
 ## Environment
 
