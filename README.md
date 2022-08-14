@@ -4,3 +4,4 @@
 - [show-display-settings](show-display-settings)
 - [background-keyboard-inputs](background-keyboard-inputs)
 - [show-fonts](show-fonts)
+- [rust-keyboard-visualizer-sample](https://github.com/horyu/rust-keyboard-visualizer-sample) (other repository)
