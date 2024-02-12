@@ -73,6 +73,7 @@ fn main() -> Result<()> {
         let mut message = MSG::default();
         let hwnd = HWND::default();
         while GetMessageA(&mut message, hwnd, 0, 0).into() {
+            TranslateMessage(&message);
             DispatchMessageA(&message);
         }
     }
@@ -103,7 +104,7 @@ extern "system" fn wh_keyboard_ll_callback(ncode: i32, wparam: WPARAM, lparam: L
 fn log_wh_keyboard_ll(message_type: &'static str, kbd_ll_hook_struct_ptr: LPARAM) {
     let kbd_ll_hook_struct = unsafe { &*(kbd_ll_hook_struct_ptr.0 as *const KBDLLHOOKSTRUCT) };
     println!(
-        "[LLKP] {}: vkCode: {}({:#02x}), scanCode: {}({:#02x}), flags: {}({:#b}), time: {}, dwExtraInfo: {}",
+        "[WH_KEYBOARD_LL] {}: vkCode: {}({:#02x}), scanCode: {}({:#02x}), flags: {}({:#b}), time: {}, dwExtraInfo: {}",
         message_type,
         kbd_ll_hook_struct.vkCode,
         kbd_ll_hook_struct.vkCode,
@@ -125,7 +126,7 @@ extern "system" fn wh_keyboard_callback(code: i32, wparam: WPARAM, lparam: LPARA
 
 fn log_wh_keyboard(code: i32, wparam: WPARAM, lparam: LPARAM) {
     println!(
-        "[KP] code: {code}, wparam: {}({:#02x}), lparam: {}({:#032b})",
+        "[WH_KEYBOARD] code: {code}, wparam: {}({:#02x}), lparam: {}({:#032b})",
         wparam.0, wparam.0, lparam.0, lparam.0
     );
 }
@@ -147,6 +148,12 @@ extern "system" fn wndproc(window: HWND, message: u32, wparam: WPARAM, lparam: L
             }
             WM_KEYUP => {
                 log_wndproc("WM_KEYUP", wparam, lparam);
+            }
+            WM_CHAR => {
+                log_wndproc("WM_CHAR", wparam, lparam);
+            }
+            WM_SYSCHAR => {
+                log_wndproc("WM_SYSCHAR", wparam, lparam);
             }
             _ => (),
         }
