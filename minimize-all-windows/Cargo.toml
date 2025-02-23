@@ -1,0 +1,15 @@
+[package]
+name = "minimize-all-windows"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+reopen-cookie-clicker = []
+
+[dependencies.windows]
+version = "0.59"
+features = [
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_Foundation",
+]
+
