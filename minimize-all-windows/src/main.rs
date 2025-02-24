@@ -2,8 +2,8 @@ use windows::{
     Win32::{
         Foundation::{BOOL, FALSE, HWND, LPARAM, TRUE, WPARAM},
         UI::WindowsAndMessaging::{
-            EnumWindows, FindWindowW, GetWindowTextW, SW_RESTORE, SendMessageW, ShowWindow,
-            WM_COMMAND,
+            EnumWindows, FindWindowW, GetWindowTextW, PostMessageW, SC_MONITORPOWER, SW_RESTORE,
+            SendMessageW, ShowWindow, WM_COMMAND, WM_SYSCOMMAND,
         },
     },
     core::w,
@@ -40,6 +40,15 @@ fn trt_main() -> Result<(), Box<dyn std::error::Error>> {
                 assert_ne!(cc_hwnd, HWND::default());
                 let _ = dbg!(ShowWindow(cc_hwnd, SW_RESTORE));
             }
+        }
+        if cfg!(feature = "shut-off-monitor") {
+            // https://superuser.com/questions/1397941/how-to-turn-off-screen-with-powershell
+            let _ = PostMessageW(
+                Some(HWND(-1isize as _)),
+                WM_SYSCOMMAND,
+                WPARAM(SC_MONITORPOWER as usize),
+                LPARAM(2),
+            );
         }
     }
     Ok(())

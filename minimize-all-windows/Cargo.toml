@@ -5,6 +5,7 @@ edition = "2024"
 
 [features]
 reopen-cookie-clicker = []
+shut-off-monitor = []
 
 [dependencies.windows]
 version = "0.59"
