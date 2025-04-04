@@ -62,7 +62,7 @@ extern "system" fn enum_window_proc(hwnd: HWND, lparam: LPARAM) -> BOOL {
         return TRUE;
     }
     let title = String::from_utf16_lossy(&buf[..(len as usize)]);
-    if title.ends_with("- Cookie Baker") {
+    if title.ends_with("- Cookie Baker") || title.ends_with("Cookie Clicker") {
         let cc_hwnd_ref = unsafe { &mut *(lparam.0 as *mut HWND) };
         *cc_hwnd_ref = hwnd;
         return FALSE;
